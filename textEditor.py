@@ -12,6 +12,19 @@ class mainWindow(QMainWindow):
     def updateUI(self):
         self.textArea = QTextEdit()
         self.setCentralWidget(self.textArea)
+        self.menuBar = self.menuBar()
+        self.updateMenuBar()
+        self.formatBar = self.addToolBar()
+        self.updateFormatBar()
+        self.statusBar = self.statusBar()
+
+    def updateMenuBar(self):
+        # #Menubar
+        return
+
+    def updateFormatBar(self):
+        # #FormatBar
+        return
 
 
 def main():
