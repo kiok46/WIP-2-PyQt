@@ -14,17 +14,21 @@ class mainWindow(QMainWindow):
         self.setCentralWidget(self.textArea)
         self.menuBar = self.menuBar()
         self.updateMenuBar()
-        self.formatBar = self.addToolBar()
+        self.formatBar = self.addToolBar("Format")
+        self.formatBar.setMovable(False)
+        self.formatBar.setFloatable(False)
         self.updateFormatBar()
         self.statusBar = self.statusBar()
 
     def updateMenuBar(self):
-        # #Menubar
-        return
+        self.fileMenu = self.menuBar.addMenu('&File')
+        self.editMenu = self.menuBar.addMenu('&Edit')
+        self.viewMenu = self.menuBar.addMenu('&View')
+        self.insertMenu = self.menuBar.addMenu('&Insert')
 
     def updateFormatBar(self):
-        # #FormatBar
-        return
+        print "updateFormatBar"
+        # #Code
 
 
 def main():
@@ -33,4 +37,5 @@ def main():
     textEditor.show()
     sys.exit(app.exec_())
 
-main()
+if __name__ == "__main__":
+    main()
