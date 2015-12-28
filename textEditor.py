@@ -19,6 +19,7 @@ class mainWindow(QMainWindow):
         self.formatBar.setFloatable(False)
         self.updateFormatBar()
         self.statusBar = self.statusBar()
+        self.updateStatusBar()
 
     def updateMenuBar(self):
         self.fileMenu = self.menuBar.addMenu('&File')
@@ -30,6 +31,22 @@ class mainWindow(QMainWindow):
         print "updateFormatBar"
         # #Code
 
+    def updateStatusBar(self):
+        self.zoomSlider = QSlider(Qt.Horizontal, self.statusBar)
+        self.zoomSlider.setTickPosition(QSlider.TicksAbove)
+        self.zoomSlider.setTickInterval(50)
+        self.zoomSlider.setValue(50)
+        self.curZoomValue = 50
+        self.statusBar.addWidget(self.zoomSlider)
+        self.connect(self.zoomSlider, SIGNAL("valueChanged(int)"), self.zoom)
+
+    def zoom(self):
+        value = self.zoomSlider.value()
+        if self.curZoomValue > value:
+            self.textArea.zoomOut((self.curZoomValue - value))
+        else:
+            self.textArea.zoomIn((value - self.curZoomValue))
+        self.curZoomValue = value
 
 def main():
     app = QApplication(sys.argv)
