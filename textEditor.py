@@ -30,7 +30,33 @@ class mainWindow(QMainWindow):
         self.fileMenu = self.menuBar.addMenu('&File')
         self.editMenu = self.menuBar.addMenu('&Edit')
         self.viewMenu = self.menuBar.addMenu('&View')
+        self.updateViewMenu()
         self.insertMenu = self.menuBar.addMenu('&Insert')
+
+    def updateViewMenu(self):
+        fullScreenAction = QAction(QIcon(''), 'Full Screen', self,
+                                   checkable=True)
+        fullScreenAction.setShortcut(QKeySequence(Qt.Key_F11))
+        self.connect(fullScreenAction, SIGNAL("triggered()"), self.fullScreen)
+        self.viewMenu.addAction(fullScreenAction)
+        self.toolbarAction = QAction(QIcon(''), 'Toolbar', self,
+                                     checkable=True)
+        self.toolbarAction.setChecked(True)
+        self.connect(self.toolbarAction, SIGNAL("triggered()"),
+                     self.showHideToolbar)
+        self.viewMenu.addAction(self.toolbarAction)
+
+    def showHideToolbar(self):
+        if self.toolbarAction.isChecked() is True:
+            self.formatBar.show()
+        else:
+            self.formatBar.hide()
+
+    def fullScreen(self):
+        if self.isFullScreen() is True:
+            self.showNormal()
+        else:
+            self.showFullScreen()
 
     def updateFormatBar(self):
         print "updateFormatBar"
@@ -81,7 +107,7 @@ class mainWindow(QMainWindow):
             wordCount = len(selectedText.split(' '))
             symbolCount = len(selectedText)
         # #print wordCount, symbolCount
-        self.countLabel.setText("Word: "+str(wordCount) + ", " +
+        self.countLabel.setText("Word: " + str(wordCount) + ", " +
                                 "Symbols: " + str(symbolCount))
 
 
