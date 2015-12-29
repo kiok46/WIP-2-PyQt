@@ -32,6 +32,12 @@ class mainWindow(QMainWindow):
         self.viewMenu = self.menuBar.addMenu('&View')
         self.updateViewMenu()
         self.insertMenu = self.menuBar.addMenu('&Insert')
+        self.updateInsertMenu()
+
+    def updateInsertMenu(self):
+        self.imageAction = QAction(QIcon(''), "Image", self)
+        self.connect(self.imageAction, SIGNAL("triggered()"), self.insertImage)
+        self.insertMenu.addAction(self.imageAction)
 
     def updateViewMenu(self):
         fullScreenAction = QAction(QIcon(''), 'Full Screen', self,
@@ -109,6 +115,21 @@ class mainWindow(QMainWindow):
         # #print wordCount, symbolCount
         self.countLabel.setText("Word: " + str(wordCount) + ", " +
                                 "Symbols: " + str(symbolCount))
+
+    def insertImage(self):
+        filename = QFileDialog.getOpenFileName(self, 'Insert image', ".",
+                                               "Images(*.png *.xpm *.jpg *.bmp\
+                                               *.gif)")
+        if filename:
+            image = QImage(filename)
+            if image.isNull():
+                popup = QMessageBox(QMessageBox.Critical, "Image load error",
+                                    "Could not load image file!",
+                                    QMessageBox.Ok, self)
+                popup.show()
+            else:
+                cursor = self.textArea.textCursor()
+                cursor.insertImage(image, filename)
 
 
 def main():
